@@ -1,4 +1,4 @@
-from core_logger.logger import Logger
+from .logger import Logger
 
 
 def get_logger(service_name: str) -> Logger:

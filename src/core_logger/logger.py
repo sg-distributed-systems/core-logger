@@ -1,6 +1,6 @@
 import json
 
-from core_logger.formatter import format_log
+from .formatter import format_log
 
 
 class Logger:
