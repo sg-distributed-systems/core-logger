@@ -16,3 +16,24 @@ Provides `debug()`, `info()`, `warning()`, and `error()` methods. Each method ac
 
 ### `format_log()`
 Formats log entries as JSON dictionaries with timestamp, level, service, message, and any additional fields passed by the caller.
+
+### `set_correlation_id(value: str)`
+Sets the correlation ID for the current execution context. The ID will be automatically included in all subsequent log entries.
+
+### `get_correlation_id() -> Optional[str]`
+Returns the current correlation ID, or None if not set.
+
+### `clear_correlation_id()`
+Clears the correlation ID from the current context.
+
+### `LoggerConfig`
+Dataclass holding logger configuration loaded from environment variables. Supports settings for log level, timestamp inclusion, correlation ID key, and pretty printing.
+
+### `load_logger_config() -> LoggerConfig`
+Loads logger configuration from environment variables with sensible defaults.
+
+### `serialize_exception(exc: BaseException) -> Dict`
+Converts an exception to a dictionary with `exception_type` and `exception_message`.
+
+### `serialize_exception_with_trace(exc: BaseException) -> Dict`
+Converts an exception to a dictionary including the full stack trace.
