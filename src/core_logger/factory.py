@@ -3,6 +3,7 @@ Logger factory for creating service-bound logger instances.
 
 Provides get_logger() as the primary entry point for obtaining a Logger
 configured for a specific service name.
+# Need to add log_handler
 """
 from .logger import Logger
 
