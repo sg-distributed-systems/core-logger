@@ -35,3 +35,17 @@ def format_log(level: str, service: str, message: str, fields: dict) -> dict:
         entry["pid"] = os.getpid()
 
     return entry
+
+
+_SENSITIVE_KEYS = {"password", "token", "secret", "authorization", "api_key"}
+
+
+def redact_sensitive_fields(fields: dict) -> dict:
+    """Return a copy of fields with sensitive values masked for safe logging."""
+    redacted = {}
+    for key, value in (fields or {}).items():
+        if key.lower() in _SENSITIVE_KEYS:
+            redacted[key] = "***redacted***"
+        else:
+            redacted[key] = value
+    return redacted
