@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from functools import lru_cache
 
 
 @dataclass(frozen=True)
@@ -19,6 +20,12 @@ class LoggerConfig:
     correlation_id_key: str = "correlation_id"
     include_pid: bool = False
     pretty: bool = False
+    service_tier: str = "infrastructure"
+    handlers_compliance: str | None = None
+    handlers_business: str | None = None
+    handlers_infrastructure: str | None = None
+    compliance_file: str = "/var/log/compliance/audit.log"
+    business_http_url: str | None = None
 
 
 def load_logger_config() -> LoggerConfig:
@@ -36,4 +43,21 @@ def load_logger_config() -> LoggerConfig:
         pretty=pretty,
         correlation_id_key=correlation_id_key,
         timestamp_key=timestamp_key,
+        service_tier=os.getenv("LOG_SERVICE_TIER", "infrastructure"),
+        handlers_compliance=os.getenv("LOG_HANDLERS_COMPLIANCE"),
+        handlers_business=os.getenv("LOG_HANDLERS_BUSINESS"),
+        handlers_infrastructure=os.getenv("LOG_HANDLERS_INFRASTRUCTURE"),
+        compliance_file=os.getenv("LOG_COMPLIANCE_FILE", "/var/log/compliance/audit.log"),
+        business_http_url=os.getenv("LOG_BUSINESS_HTTP_URL"),
     )
+
+
+@lru_cache(maxsize=1)
+def get_logger_config() -> LoggerConfig:
+    """Return the cached environment configuration."""
+    return load_logger_config()
+
+
+def reload_logger_config() -> None:
+    """Clear the configuration cache; subsequent calls load the environment."""
+    get_logger_config.cache_clear()

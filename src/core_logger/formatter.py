@@ -11,11 +11,11 @@ from datetime import datetime, timezone
 import os
 
 from .context import get_correlation_id
-from .config import load_logger_config
+from .config import get_logger_config
 
 
 def format_log(level: str, service: str, message: str, fields: dict) -> dict:
-    cfg = load_logger_config()
+    cfg = get_logger_config()
 
     entry = {
         "level": level,
