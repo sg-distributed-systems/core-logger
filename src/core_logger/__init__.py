@@ -5,10 +5,17 @@ Exports get_logger() for creating service-bound loggers, and correlation ID
 management functions for request tracing across service boundaries.
 """
 from .factory import get_logger
+from .tiers import Tier
+from .handlers import LogHandler, StdoutHandler, FileHandler, HttpHandler
 from .context import set_correlation_id, get_correlation_id, clear_correlation_id
 
 __all__ = [
     "get_logger",
+    "Tier",
+    "LogHandler",
+    "StdoutHandler",
+    "FileHandler",
+    "HttpHandler",
     "set_correlation_id",
     "get_correlation_id",
     "clear_correlation_id",
